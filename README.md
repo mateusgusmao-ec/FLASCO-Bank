@@ -1,4 +1,4 @@
-# Sistema_bancario
+# União Flasco-Banco Unificado
 Replicação de um Sistema Bancário, desenvolvido para simular operações básicas reais
 
 
