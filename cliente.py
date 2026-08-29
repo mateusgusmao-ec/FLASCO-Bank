@@ -6,3 +6,6 @@ def cadastro_cliente(nome, cpf, senha):
     senha = 'senhateste'
 
     return nome, cpf, senha
+
+
+print(cadastro_cliente('', '', ''))
