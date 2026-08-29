@@ -15,4 +15,5 @@ Funcionalidades :
   5-realizar saque
 
 Linguagem : Python
+
 Colaboradores : arthurmaciel-ec, mateusgusmao-ec, vinilevi
