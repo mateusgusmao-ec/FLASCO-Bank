@@ -1,11 +1,11 @@
 # Funções que diz respeito ao cadastro do cliente
 
-def cadastro_cliente(nome, cpf, senha):
-    nome = 'João'
+def cadastro_cliente(nome, cpf, data_nascimento):
+    nome = 'Joao'
     cpf = '98794416567'
-    senha = 'senhateste'
+    data_nascimento = '06032000'
 
-    return nome, cpf, senha
+    return nome, cpf, data_nascimento
 
 
 print(cadastro_cliente('', '', ''))
