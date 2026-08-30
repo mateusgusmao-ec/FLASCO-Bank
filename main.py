@@ -24,16 +24,16 @@ valor_deposito=float(input("Digite o valor do depósito : "))
 
 sucesso_deposito, saldoConta = depositar(saldoConta, valor_deposito)
 
-if valor_deposito :
-    print(" Depósito realizado com sucesso!")
+if sucesso_deposito: 
+    print("✅ Depósito realizado com sucesso!")
+else:
+    print("❌ Falha no depósito. Valor inválido.")
 
-else :
-    print(" Falha no depósito. Valor inválido.")
 
 print(exibir_conta(numeroDaConta, saldoConta))
 
 print("\n--- SIMULANDO SAQUE ---")
-valor_saque=float(input("Digite um valor para saque"))
+valor_saque=float(input("Digite um valor para saque : "))
 
 sucesso_saque, saldoConta = sacar(saldoConta, valor_saque)
 
@@ -43,5 +43,5 @@ else :
     print("❌ Falha no saque. Valor inválido.")
 
 print("\n--- RESULTADO FINAL DO SISTEMA ---")
-print(dados_cliente_formatados)
-print(exibir_conta(numero_da_conta, saldo_da_conta))
+print(dados_clientes)
+print(exibir_conta(numeroDaConta, saldoConta))
