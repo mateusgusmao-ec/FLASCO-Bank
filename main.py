@@ -1,5 +1,7 @@
 from cliente import criar_cliente
 from conta import depositar, sacar, exibir_conta
+#chama as funções dos outros arquivos para main
+
 
 
 print("-"*27)
@@ -23,10 +25,10 @@ valor_deposito=float(input("Digite o valor do depósito : "))
 sucesso_deposito, saldoConta = depositar(saldoConta, valor_deposito)
 
 if valor_deposito :
-    print("✅ Depósito realizado com sucesso!")
+    print(" Depósito realizado com sucesso!")
 
 else :
-    print("❌ Falha no depósito. Valor inválido.")
+    print(" Falha no depósito. Valor inválido.")
 
 print(exibir_conta(numeroDaConta, saldoConta))
 
