@@ -2,8 +2,8 @@ from cliente import criar_cliente
 from conta import depositar, sacar, exibir_conta
 #chama as funções dos outros arquivos para main
 
-
-
+print("-"*27)
+print("-","BEM VINDO AO FLASCOBANK","-")
 print("-"*27)
 print("-"*3, "CADASTRO DO CLIENTE", "-"*3)
 nome_usuario=input("DIGITE SEU NOME : ")
