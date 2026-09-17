@@ -20,7 +20,7 @@ def sacar(saldoConta, valor_saque):
 
 def transferir(saldoConta, valor_deposito):
 
-def criar_contaS(numeroConta):
+def cadastrar_contaS(numeroConta):
     contas = []
     
 
