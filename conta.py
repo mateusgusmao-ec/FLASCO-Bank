@@ -17,3 +17,7 @@ def sacar(saldoConta, valor_saque):
         return True, novoSaldo
     else:
         return False, saldoConta
+
+def transferir(saldoConta, valor_conta):
+
+def criar_contaS():
