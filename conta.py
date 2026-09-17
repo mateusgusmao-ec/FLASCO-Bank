@@ -18,7 +18,7 @@ def sacar(saldoConta, valor_saque):
     else:
         return False, saldoConta
 
-def transferir(saldoConta, valor_conta):
+def transferir(saldoConta, valor_deposito):
 
 def criar_contaS():
 
@@ -30,3 +30,12 @@ def listar_contas(contas):
         print("CPF do cliente:", conta[1])
         print("Saldo:", conta[2])
         print()
+
+def consultar_saldo(cpf, numeroConta):
+    cpf = int(input("Digite o CPF: "))
+    conta = buscar_conta_por_cpf(contas, cpf)
+
+    if conta != None:
+        print(saldoConta(conta[0], conta[2]))
+    else:
+        print("Conta não encontrada.")
