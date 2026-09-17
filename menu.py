@@ -35,27 +35,7 @@ def executar_menu(clientes, contas, proximo_numero_conta):
         sacar(saldoConta, valor_saque)
 
     elif opcao == "3":
-        cpf_origem = input("Digite o CPF do remetente: ").strip()
-        conta_origem = buscar_conta_por_cpf(contas, cpf_origem)
-        
-        if not conta_origem:
-            print("Conta de origem não encontrada.")
-            return executar_menu(clientes, contas, proximo_numero_conta)
-
-        cpf_destino = input("Digite o CPF do destinatário: ").strip()
-        conta_destino = buscar_conta_por_cpf(contas, cpf_destino)
-        
-        if not conta_destino:
-            print("Conta de destino não encontrada.")
-            return executar_menu(clientes, contas, proximo_numero_conta)
-
-        val = float(input("Digite o valor da transferência: "))
-        sucesso, saldo_atual = transferir(conta_origem, conta_destino, val)
-        
-        if sucesso:
-            print(f"Transferência realizada! Saldo atual: R$ {saldo_atual:.2f}")
-        else:
-            print("Falha na transferência. Saldo insuficiente ou valor inválido.")
+        transferir(saldoConta, valor_transferencia)
 
     elif opcao == "4":
         depositar(saldoConta, valor_deposito)
