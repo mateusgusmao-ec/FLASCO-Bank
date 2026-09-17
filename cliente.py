@@ -2,11 +2,11 @@
 # Login do cliente
 # BASEADO NAS FUNÇOES MAIN.PY
 
-def criar_cliente(nome, cpf, data_nascimento):
+def cadastrar_cliente(nome, cpf, data_nascimento):
     cadastro = f'Cliente: {nome} | CPF: {cpf} | Data de Nascimento: {data_nascimento}'
     return cadastro
 
-def criar_clienteS(nome, cpf, data_nascimento):
+def cadastrar_clienteS(nome, cpf, data_nascimento):
     clientes = []
 
     quantidade = int('Quantos clientes serão cadastrados? ')
