@@ -6,7 +6,7 @@ def criar_cliente(nome, cpf, data_nascimento):
     cadastro = f'Cliente: {nome} | CPF: {cpf} | Data de Nascimento: {data_nascimento}'
     return cadastro
 
-def criar_clienteS(nome, cpf, gata_nascimento):
+def criar_clienteS(nome, cpf, data_nascimento):
     cliente = []
 
     quantidade = int('Quantos clientes serão cadastrados? ')
