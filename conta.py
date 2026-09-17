@@ -21,3 +21,12 @@ def sacar(saldoConta, valor_saque):
 def transferir(saldoConta, valor_conta):
 
 def criar_contaS():
+
+def listar_contas(contas):
+    print("\n--- CONTAS ---")
+
+    for conta in contas:
+        print("Número da conta:", conta[0])
+        print("CPF do cliente:", conta[1])
+        print("Saldo:", conta[2])
+        print()
