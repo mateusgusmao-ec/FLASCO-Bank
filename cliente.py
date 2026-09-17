@@ -16,11 +16,13 @@ def cadastrar_clienteS(nome, cpf, data_nascimento):
             nome = input()
             cpf = int(input())
             data_nascimento = int(input())
-            clientes.append(nome)
-            clientes.append(cpf)
-            clientes.append(data_nascimento)
+            clientes.append(nome, cpf)
     else:
         print('Este cliente já existe.')
+
+def ordenar_clientes()  # Usar .sort() 
+    
+    
 
 
 def listar_clientes(clientes):
