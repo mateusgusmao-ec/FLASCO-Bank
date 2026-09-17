@@ -1,7 +1,7 @@
 import json
 
-from cliente import criar_clientes
-from conta import criar_conta, depositar, sacar, transferir, saldoConta
+from cliente import criar_clientes, listar_clientes
+from conta import criar_conta, depositar, sacar, transferir, saldoConta, listar_contas, consultar_saldo
 from agencia import cadastrar_agencia, listar_agencias
 
 
@@ -22,36 +22,6 @@ def exibir_menu():
     print("11. Relatório do banco")
     print("12. Salvar dados")
     print("0. Sair")
-
-
-def cliente_existe(clientes, cpf):
-    for cliente in clientes:
-        if cliente[0] == cpf:
-            return True
-
-    return False
-
-
-def buscar_conta_por_cpf(contas, cpf):
-    for conta in contas:
-        if conta[1] == cpf:
-            return conta
-
-    return None
-
-
-def listar_clientes(clientes):
-    print("\n--- CLIENTES ---")
-
-    for cliente in clientes:
-        print(cliente)
-
-
-def listar_contas(contas):
-    print("\n--- CONTAS ---")
-
-    for conta in contas:
-        print(conta)
 
 
 def relatorio_banco(contas, agencias):
@@ -135,69 +105,16 @@ def executar_menu(clientes, contas, agencias, proximo_numero_conta):
         listar_clientes(clientes)
 
     elif opcao == "7":
-
-        cpf = int(input("Digite o CPF: "))
-        conta = buscar_conta_por_cpf(contas, cpf)
-
-        if conta != None:
-            valor_saque = float(input("Digite o valor do saque: "))
-
-            sucesso, novo_saldo = sacar(conta[2], valor_saque)
-
-            if sucesso:
-                conta[2] = novo_saldo
-                print("Saque realizado com sucesso!")
-            else:
-                print("Saldo insuficiente ou valor inválido.")
-        else:
-            print("Conta não encontrada.")
-
+        sacar(saldoConta, valor_saque)
+        
     elif opcao == "8":
-
-        cpf = int(input("Digite o CPF da conta: "))
-        conta = buscar_conta_por_cpf(contas, cpf)
-
-        if conta != None:
-            valor_transferencia = float(
-                input("Digite o valor da transferência: ")
-            )
-
-            print("Transferência realizada.")
-
-        else:
-            print("Conta não encontrada.")
-
+        transferir(saldoConta, valor_tranferencia)
+        
     elif opcao == "9":
-
-        cpf = int(input("Digite o CPF: "))
-        conta = buscar_conta_por_cpf(contas, cpf)
-
-        if conta != None:
-            valor_deposito = float(input("Digite o valor do depósito: "))
-
-            sucesso, novo_saldo = depositar(
-                conta[2],
-                valor_deposito
-            )
-
-            if sucesso:
-                conta[2] = novo_saldo
-                print("Depósito realizado com sucesso!")
-            else:
-                print("Valor inválido.")
-
-        else:
-            print("Conta não encontrada.")
+        depositar(saldoConta, valor_deposito)
 
     elif opcao == "10":
-
-        cpf = int(input("Digite o CPF: "))
-        conta = buscar_conta_por_cpf(contas, cpf)
-
-        if conta != None:
-            print(saldoConta(conta[0], conta[2]))
-        else:
-            print("Conta não encontrada.")
+        consultar_saldo(saldoConta)
 
     elif opcao == "11":
 
