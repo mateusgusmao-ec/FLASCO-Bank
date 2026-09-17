@@ -1,7 +1,7 @@
 import json
 
-from cliente import criar_clientes, listar_clientes
-from conta import criar_conta, depositar, sacar, transferir, saldoConta, listar_contas, consultar_saldo
+from cliente import cadastrar_clienteS_clientes, listar_clientes
+from conta import cadastar_contaS, depositar, sacar, transferir, saldoConta, listar_contas, consultar_saldo
 from agencia import cadastrar_agencia, listar_agencias
 
 
@@ -66,42 +66,21 @@ def executar_menu(clientes, contas, agencias, proximo_numero_conta):
     opcao = input("Escolha uma opção: ")
 
     if opcao == "1":
-
-        nome = input("Digite o nome: ")
-        cpf = int(input("Digite o CPF: "))
-        data_nascimento = input("Digite a data de nascimento: ")
-
-        if cliente_existe(clientes, cpf):
-            print("Este cliente já existe.")
-        else:
-            cliente = criar_clientes(nome, cpf, data_nascimento)
-            clientes.append(cliente)
+        cadastrar_contaS(numeroConta)
 
     elif opcao == "2":
-
-        cpf = int(input("Digite o CPF do cliente: "))
-
-        if cliente_existe(clientes, cpf):
-            conta = criar_conta(proximo_numero_conta, cpf)
-            contas.append(conta)
-            proximo_numero_conta += 1
-        else:
-            print("Cliente não cadastrado.")
+        cadastrar_clienteS(nome, cpf_ data_nascimento)
 
     elif opcao == "3":
-
         cadastrar_agencia(agencias)
 
     elif opcao == "4":
-
         listar_contas(contas)
 
     elif opcao == "5":
-
         listar_agencias(agencias)
 
     elif opcao == "6":
-
         listar_clientes(clientes)
 
     elif opcao == "7":
@@ -121,11 +100,9 @@ def executar_menu(clientes, contas, agencias, proximo_numero_conta):
         relatorio_banco(contas, agencias)
 
     elif opcao == "12":
-
         salvar_dados(clientes, contas, agencias)
 
     elif opcao == "0":
-
         print("Saindo do sistema...")
         return
 
