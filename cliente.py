@@ -9,16 +9,17 @@ def cadastrar_cliente(nome, cpf, data_nascimento):
 def cadastrar_clienteS(nome, cpf, data_nascimento):
     clientes = []
 
-    quantidade = int('Quantos clientes serão cadastrados? ')
-
+    quantidade = int(input('Quantos clientes serão cadastrados? '))
+    
     if cpf not in clientes: 
         for _ in range(quantidade):
             nome = input()
             cpf = int(input())
             data_nascimento = int(input())
-            cliente.append(cpf)
+            clientes.append(cpf)
     else:
         print('Este cliente já existe.')
+
 
 def listar_clientes(clientes):
     print("\n--- CLIENTES ---")
