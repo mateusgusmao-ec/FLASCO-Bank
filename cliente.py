@@ -7,7 +7,7 @@ def criar_cliente(nome, cpf, data_nascimento):
     return cadastro
 
 def criar_clienteS(nome, cpf, data_nascimento):
-    cliente = []
+    clientes = []
 
     quantidade = int('Quantos clientes serão cadastrados? ')
 
