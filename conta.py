@@ -22,6 +22,16 @@ def transferir(saldoConta, valor_deposito):
 
 def cadastrar_contaS(numeroConta):
     contas = []
+
+    quantidade = int(input('Quantos clientes serão cadastrados? '))
+    
+    if numeroConta not in clientes: 
+        for _ in range(quantidade):
+            numeroConta = int(input())
+            clientes.append(numeroConta)
+    else:
+        print('Esa conta já exite já existe.')
+
     
 
 def listar_contas(contas):
