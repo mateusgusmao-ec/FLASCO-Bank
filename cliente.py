@@ -16,7 +16,9 @@ def cadastrar_clienteS(nome, cpf, data_nascimento):
             nome = input()
             cpf = int(input())
             data_nascimento = int(input())
+            clientes.append(nome)
             clientes.append(cpf)
+            clientes.append(data_nascimento)
     else:
         print('Este cliente já existe.')
 
