@@ -19,3 +19,9 @@ def criar_clienteS(nome, cpf, data_nascimento):
             cliente.append(cpf)
     else:
         print('Este cliente já existe.')
+
+def listar_clientes(clientes):
+    print("\n--- CLIENTES ---")
+
+    for cpf in clientes:
+        print("CPF:", cpf)
