@@ -23,7 +23,7 @@ def transferir(saldoConta, valor_deposito):
 def cadastrar_contaS(numeroConta):
     contas = []
 
-    quantidade = int(input('Quantos clientes serão cadastrados? '))
+    quantidade = int(input('Quantas contas serão cadastrados? '))
     
     if numeroConta not in contas: 
         for _ in range(quantidade):
