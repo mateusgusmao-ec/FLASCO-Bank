@@ -1,7 +1,7 @@
 #extrato,saldo,deposito,saque
 #BASEADO NAS FUNÇOES MAIN.PY
-def exibir_conta(numeroDaConta,saldoConta):
-    resultado = f"NÚMERO DA CONTA : '{numeroDaConta}'\nSALDO DA CONTA : '{saldoConta}'"
+def exibir_conta(numeroConta,saldoConta):
+    resultado = f"NÚMERO DA CONTA : '{numeroConta}'\nSALDO DA CONTA : '{saldoConta}'"
     return resultado
 
 def depositar(saldoConta,valor_deposito):
@@ -20,7 +20,9 @@ def sacar(saldoConta, valor_saque):
 
 def transferir(saldoConta, valor_deposito):
 
-def criar_contaS():
+def criar_contaS(numeroConta):
+    contas = []
+    
 
 def listar_contas(contas):
     print("\n--- CONTAS ---")
