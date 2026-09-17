@@ -25,7 +25,7 @@ def cadastrar_contaS(numeroConta):
 
     quantidade = int(input('Quantos clientes serão cadastrados? '))
     
-    if numeroConta not in clientes: 
+    if numeroConta not in contas: 
         for _ in range(quantidade):
             numeroConta = int(input())
             clientes.append(numeroConta)
