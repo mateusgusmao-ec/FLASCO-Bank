@@ -16,8 +16,6 @@ def listar_agencias(agencias):
         print("Número:", agencia[0])
         print("Nome:", agencia[1])
         print("Clientes:", len(agencia[2]))
-        print()
-
 
 def procurar_agencia(agencias, numero):
     for agencia in agencias:
