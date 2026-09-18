@@ -38,9 +38,9 @@ def listar_contas(contas):
     print("\n--- CONTAS ---")
 
     for conta in contas:
-        print("Número da conta:", conta[0])
-        print("CPF do cliente:", conta[1])
-        print("Saldo:", conta[2])
+        print("Número da conta:", contas[0])
+        print("CPF do cliente:", contas[1])
+        print("Saldo:", contas2])
         print()
 
 def consultar_saldo(cpf, numeroConta):
