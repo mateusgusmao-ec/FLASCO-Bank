@@ -1,7 +1,12 @@
 #extrato,saldo,deposito,saque
 #BASEADO NAS FUNÇOES MAIN.PY
-def exibir_conta(numeroConta,saldoConta):
-    resultado = f"NÚMERO DA CONTA : '{numeroConta}'\nSALDO DA CONTA : '{saldoConta}'"
+#REFATOREI o conta PARA SER UMA TUPLA
+ListaContas = []
+ListaVinculos = []
+def exibir_conta(conta):
+    resultado = (f"NÚMERO DA CONTA : '{conta[0]}'\n"
+                f"CPF DO CLIENTE  : '{conta[1]}'\n"
+                f"SALDO DA CONTA  : 'R$ {conta[2]:.2f}'")
     return resultado
 
 def depositar(saldoConta,valor_deposito):
@@ -17,37 +22,49 @@ def sacar(saldoConta, valor_saque):
         return True, novoSaldo
     else:
         return False, saldoConta
-
-def transferir(saldoConta, valor_deposito):
-
-def cadastrar_contaS(numeroConta):
-    contas = []
-
+    
+def cadastrarConta(ListaContas,ListaClientes):
     quantidade = int(input('Quantas contas serão cadastrados? '))
+    for item in range(quantidade):
+        print(f'cadastro: {item + 1}')
+        cpf = str(input('digite seu cpf'))
+        clienteExiste = False
+        for j in range(len(ListaClientes)):
+            if ListaClientes[j][0] == cpf:
+                clienteExiste = True
+                break
+        if not clienteExiste:
+            print('cpf n esta cadastrado')
+        else:
+            saldo = float(input('digite seu saldo inicial'))
+            numeroConta = int(input('digite seu numero da conta'))
+            Conta = (numeroConta,cpf,saldo)
+            ListaContas.append(Conta)
     
-    if numeroConta not in contas: 
-        for _ in range(quantidade):
-            numeroConta = int(input())
-            clientes.append(numeroConta)
-    else:
-        print('Esa conta já exite já existe.')
+def listar_contas(Listacontas):
+    if len(Listacontas) == 0:
+        print('nenhuma conta encontrada')
+        return
+    print('LISTA DE CONTAS')
+    for item in range(len(Listacontas)):
+        Conta = Listacontas[item]
+        print(f"Cliente {item + 1}:")
+        print(f"  Número da Conta : {Conta[0]}")
+        print(f"  CPF do Cliente  : {Conta[1]}")
+        print(f"  Saldo da Conta  : R$ {Conta[2]:.2f}")
 
-    
+def consultar_saldo(ListaContas):
+    cpf_busca = input("Digite o CPF do cliente para consultar: ")
+    encontrado = False
+    for item in range(len(ListaContas)):
+        registro = ListaContas[item]
+        if registro[1] == cpf_busca:  
+            print(f"Número da Conta : {registro[0]}")
+            print(f"CPF do Cliente  : {registro[1]}")
+            print(f"Saldo Atual     : R$ {registro[2]:.2f}")
+            encontrado = True
+            break
+            
+    if not encontrado:
+        print("\nConta não encontrada para o CPF informado.")
 
-def listar_contas(contas):
-    print("\n--- CONTAS ---")
-
-    for conta in contas:
-        print("Número da conta:", conta[0])
-        print("CPF do cliente:", conta[1])
-        print("Saldo:", conta[2])
-        print()
-
-def consultar_saldo(cpf, numeroConta):
-    cpf = int(input("Digite o CPF: "))
-    conta = buscar_conta_por_cpf(contas, cpf)
-
-    if conta != None:
-        print(saldoConta(conta[0], conta[2]))
-    else:
-        print("Conta não encontrada.")
