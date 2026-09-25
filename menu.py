@@ -4,6 +4,28 @@ from cliente import cadastrar_clienteS_clientes, listar_clientes
 from conta import cadastar_contaS, depositar, sacar, transferir, saldoConta, listar_contas, consultar_saldo
 from agencia import cadastrar_agencia, listar_agencias
 
+#função para carregar os dados
+def carregar_dados():
+    try:
+        with open("dados.json", "r") as arquivo :
+            dados = json.load(arquivo)
+            #usando listas os dados terão índice
+        return dados[0], dados[1], dados[2]
+    except FileNotFoundError:
+        return [], [], [] #se o arquivo não existir
+
+#função para salvar os dados(com listas)
+def salvar_dados(clientes, contas, agencias):
+    dadaos = [clientes, contas, agencias] #lista dos 3 dados
+    with open("dados.json", "w") as arquivo:
+        json.dump(dados, arquivo, indent=4)
+
+    print("Dados salvos com sucesso!")
+
+
+
+
+
 
 def exibir_menu():
     print("\n" + "-" * 30)
@@ -46,17 +68,7 @@ def relatorio_banco(contas, agencias):
         print("Montante total da agência:", montante_agencia)
 
 
-def salvar_dados(clientes, contas, agencias):
-    dados = {
-        "clientes": clientes,
-        "contas": contas,
-        "agencias": agencias
-    }
 
-    with open("dados.json", "w") as arquivo:
-        json.dump(dados, arquivo, indent=4)
-
-    print("Dados salvos com sucesso!")
 
 
 def executar_menu(clientes, contas, agencias, proximo_numero_conta):
