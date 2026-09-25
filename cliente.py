@@ -3,11 +3,9 @@
 # BASEADO NAS FUNÇOES MAIN.PY
 
 def cadastrar_cliente(nome, cpf, data_nascimento):
-    return f'Cliente: {nome} | CPF: {cpf} | Data de Nascimento: {data_nascimento}'#retorna os dados numa tupla
+    return (nome, cpf, data_nascimento)
 
-def cadastrar_clienteS(nome, cpf, data_nascimento):
-    clientes = []
-
+def cadastrar_clienteS(clientes):
     quantidade = int(input('Quantos clientes serão cadastrados? '))
     for i in range(quantidade):
         nome = input()
@@ -29,7 +27,7 @@ def cadastrar_clienteS(nome, cpf, data_nascimento):
 def obter_nome_Cliente(cliente):
     return cliente[0]#retorna o nome puro
 
-def ordenar_clientes(clientes)  # Usar .sort() 
+def ordenar_clientes(clientes):  # Usar .sort()
     #ordenação em ordem alfabética com base no nome (lista[0])
     clientes.sort(key= obter_nome_Cliente)
     print("Clientes ordenados!")
@@ -38,7 +36,7 @@ def procurar_cliente(clientes, cpf_procurado) :
     for cliente in clientes :
         #cliente[1] é o cpf
         if cliente[1] == cpf_procurado :
-            return clientes
+            return cliente
     return None
 
 
