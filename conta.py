@@ -18,12 +18,39 @@ def sacar(saldoConta, valor_saque):
     else:
         return False, saldoConta
 
-def transferir(saldoConta, valor_deposito):
-    if valor_deposito > 0 and saldoConta >= valor_deposito:
-        novoSaldo = saldoConta - valor_deposito
-        return True, novoSaldo
-    else:
-        return False, saldoConta
+def transferir(contas, numero_origem, numero_destino, valor):
+    if valor <= 0:
+        return False, " O valor da transferência deve ser maior que zero."
+
+    indice_origem = -1
+    indice_destino = -1
+
+    #procurar a conta pelo indice
+    for i in range(len(contas)):
+        if contas[i][0] == numero_origem:
+            indice_origem = i
+        if contas[i][0] == numero_destino:
+            indice_destino = i
+
+    if indice_origem == -1 or indice_destino == -1:
+        return False, " Conta de origem ou de destino não encontrada."
+
+    conta_origem = contas[indice_origem]
+    conta_destino = contas[indice_destino]
+
+    # verifica o saldo
+    if conta_origem[2] < valor:
+        return False, " Saldo insuficiente para realizar a transferência."
+
+    #atualiza o saldo
+    novo_saldo_origem = conta_origem[2] - valor
+    contas[indice_origem] = (conta_origem[0], conta_origem[1], novo_saldo_origem)
+
+    # atuasliza o saldo porem na tupla
+    novo_saldo_destino = conta_destino[2] + valor
+    contas[indice_destino] = (conta_destino[0], conta_destino[1], novo_saldo_destino)
+
+    return True, " Transferência realizada com sucesso!"
 # conta.py
 
 
