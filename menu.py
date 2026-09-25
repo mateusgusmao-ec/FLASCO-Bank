@@ -59,11 +59,13 @@ def relatorio_banco(contas, agencias):
     for agencia in agencias:
         montante_agencia = 0
 
+        
         for cpf in agencia[2]:
             for conta in contas:
-                if conta[1] == cpf:
+                if cpf in conta[1] #mudou de == conta[1] porque agora tem uma lista de cpf's
                     montante_agencia += conta[2]
 
+        
         print("Agência:", agencia[0])
         print("Montante total da agência:", montante_agencia)
 
