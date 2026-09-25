@@ -102,7 +102,12 @@ def executar_menu(clientes, contas, agencias, proximo_numero_conta):
         sacar(saldoConta, valor_saque)
         
     elif opcao == "8":
-        transferir(saldoConta, valor_tranferencia)
+        num_origem = int(input("Digite o número da sua conta (origem): "))
+        num_destino = int(input("Digite o número da conta de destino: "))
+        valor = float(input("Digite o valor da transferência: "))
+    
+        sucesso, mensagem = transferir(contas, num_origem, num_destino, valor)
+        print(mensagem)
         
     elif opcao == "9":
         depositar(saldoConta, valor_deposito)
