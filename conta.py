@@ -20,48 +20,73 @@ def sacar(saldoConta, valor_saque):
 
 def transferir(saldoConta, valor_deposito):
 
-def cadastrar_contaS(numeroConta):
-    contas = []
+# conta.py
 
-    quantidade = int(input('Quantas contas serão cadastrados? '))
 
-    for _ in range(quantidade):
-        print()
-        numero_conta = int(input("Digite o numero da conta : "))
-        cpf = int(input("Digite seu cpf"))
+def cadastrar_contaS(contas, clientes):
+  quantidade_contas = int(input("Quantas contas serão cadastradas? "))
 
-        #verificar se o cliente existe
-        cliente_encontrado=False
-        for cliente in clientes :
-            if cliente[1] == cpf :
-                cliente_encontrado = True
-                break
+  for _ in range(quantidade_contas):
+    print()
+    numero_conta = int(input("Digite o número da conta: "))
+
+    #verifica se ja tem a conta
+    conta_duplicada = False
+    for conta in contas:
+      if conta[0] == numero_conta:
+        conta_duplicada = True
+        break
+
+    if conta_duplicada:
+      print("Já existe uma conta cadastrada com este número.")
+    else:
+      # perguntar o numero de titulares
+      qtd_titulares = int(
+          input("Quantos titulares esta conta terá? (Ex: 1 ou mais): ")
+      )
+      cpfs_titulares = []
+      conta_valida = True
+
+      # coletar os cpf's
+      for _ in range(qtd_titulares):
+        cpf = int(input("Digite o CPF do titular: "))
+
+        # ver se o cliente existe na lista_clientes
+        cliente_encontrado = False
+        for cliente in clientes:
+          # cliente[1] é o cpf
+          if cliente[1] == cpf:
+            cliente_encontrado = True
+            break
+
         if not cliente_encontrado:
-            print("Este  CPF não está cadastrado. Cadastre primeiro para criar a conta")
+          print(f" O CPF {cpf} não está cadastrado! Cadastre o cliente primeiro.")
+          conta_valida = False
+          break
+        else:
+          # para não repetir o cpf
+          if cpf not in cpfs_titulares:
+            cpfs_titulares.append(cpf)
+          else:
+            print(f"O CPF {cpf} já foi adicionado a esta conta.")
 
-        else : #ver se o numero da conta ja exite
-            conta_duplicada = False
-            for conta in contas :
-                if cont[0] == numero_conta:
-                    conta_duplicada = True
-                    break
-            if conta_duplicada:
-                print("Erro, já existe uma conta com esse número")
-            else :
-                saldo_inicial = 0.0
-                #criar o dado da conta
-                nova_conta = (numero_conta, cpf, saldo_inicial)
-                contas.append(nova_conta)
-                print(f"Conta {numero_conta} cadastrada com sucesso no cpf {cpf}")
+      # se for válido cria a conta com mais de 1 titular
+      if conta_valida and len(cpfs_titulares) > 0:
+        saldo_inicial = 0.0
+        # guarda uma lista de cpfs na cliente[1]
+        nova_conta = (numero_conta, cpfs_titulares, saldo_inicial)
+        contas.append(nova_conta)
+        print(f"Conta conjunta {numero_conta} cadastrada com sucesso para os CPFs: {cpfs_titulares}!")
+
 
 def listar_contas(contas):
-    print("\n--- CONTAS ---")
+  print("\n--- CONTAS ---")
+  for conta in contas:
+    print(f"Número da conta: {conta[0]}")
+    print(f"Titulares (CPFs): {conta[1]}")  # mostra todos os cpf's da lista
+    print(f"Saldo: {conta[2]}")
+    print()
 
-    for conta in contas:
-        print("Número da conta:", contas[0])
-        print("CPF do cliente:", contas[1])
-        print("Saldo:", [contas2])
-        print()
 
 def consultar_saldo(cpf, numeroConta):
     cpf = int(input("Digite o CPF: "))
