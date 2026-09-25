@@ -24,15 +24,35 @@ def cadastrar_contaS(numeroConta):
     contas = []
 
     quantidade = int(input('Quantas contas serão cadastrados? '))
-    
-    if numeroConta not in contas: 
-        for _ in range(quantidade):
-            numeroConta = int(input())
-            clientes.append(numeroConta)
-    else:
-        print('Esa conta já exite já existe.')
 
-    
+    for _ in range(quantidade):
+        print()
+        numero_conta = int(input("Digite o numero da conta : "))
+        cpf = int(input("Digite seu cpf"))
+
+        #verificar se o cliente existe
+        cliente_encontrado=False
+        for cliente in clientes :
+            if cliente[1] == cpf :
+                cliente_encontrado = True
+                break
+        if not cliente_encontrado:
+            print("Este  CPF não está cadastrado. Cadastre primeiro para criar a conta")
+
+        else : #ver se o numero da conta ja exite
+            conta_duplicada = False
+            for conta in contas :
+                if cont[0] == numero_conta:
+                    conta_duplicada = True
+                    break
+            if conta_duplicada:
+                print("Erro, já existe uma conta com esse número")
+            else :
+                saldo_inicial = 0.0
+                #criar o dado da conta
+                nova_conta = (numero_conta, cpf, saldo_inicial)
+                contas.append(nova_conta)
+                print(f"Conta {numero_conta} cadastrada com sucesso no cpf {cpf}")
 
 def listar_contas(contas):
     print("\n--- CONTAS ---")
@@ -40,7 +60,7 @@ def listar_contas(contas):
     for conta in contas:
         print("Número da conta:", contas[0])
         print("CPF do cliente:", contas[1])
-        print("Saldo:", contas2])
+        print("Saldo:", [contas2])
         print()
 
 def consultar_saldo(cpf, numeroConta):
