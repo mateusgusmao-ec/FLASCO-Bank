@@ -34,6 +34,12 @@ def ordenar_clientes(clientes)  # Usar .sort()
     clientes.sort(key= obter_nome_Cliente)
     print("Clientes ordenados!")
     
+def procurar_cliente(clientes, cpf_procurado) :
+    for cliente in clientes :
+        #cliente[1] é o cpf
+        if cliente[1] == cpf_procurado :
+            return clientes
+    return None
 
 
 def listar_clientes(clientes):
