@@ -94,9 +94,16 @@ def listar_contas(contas):
 
 def consultar_saldo(cpf, numeroConta):
     cpf = int(input("Digite o CPF: "))
-    conta = buscar_conta_por_cpf(contas, cpf)
+    numero_conta_busca = buscar_conta_por_cpf(contas, cpf)
 
-    if conta != None:
-        print(saldoConta(conta[0], conta[2]))
+    conta_encontrada = None 
+    for conta in contas :
+       #verifica o numero da conta
+       if conta[0] == numero_conta_busca and cpf in conta[1]:
+          conta_encontrada = conta
+          break
+
+    if conta_encontrada != None :
+       print(f"Numero da conta : {conta_encontrada[0]} | Saldo : R$ {conta_encontrada[2]:.2f}")
     else:
-        print("Conta não encontrada.")
+        print("Conta não encontrada para este CPF e número.")
