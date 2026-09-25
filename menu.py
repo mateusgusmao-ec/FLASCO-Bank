@@ -1,7 +1,7 @@
 import json
 
-from cliente import cadastrar_clienteS_clientes, listar_clientes
-from conta import cadastar_contaS, depositar, sacar, transferir, saldoConta, listar_contas, consultar_saldo
+from cliente import cadastrar_clienteS, listar_clientes, ordenar_clientes
+from conta import cadastrar_contaS, depositar, sacar, transferir, saldoConta, listar_contas, consultar_saldo
 from agencia import cadastrar_agencia, listar_agencias
 
 #função para carregar os dados
@@ -16,7 +16,7 @@ def carregar_dados():
 
 #função para salvar os dados(com listas)
 def salvar_dados(clientes, contas, agencias):
-    dadaos = [clientes, contas, agencias] #lista dos 3 dados
+    dados = [clientes, contas, agencias] #lista dos 3 dados
     with open("dados.json", "w") as arquivo:
         json.dump(dados, arquivo, indent=4)
 
@@ -63,7 +63,7 @@ def relatorio_banco(contas, agencias):
         
         for cpf in agencia[2]:
             for conta in contas:
-                if cpf in conta[1] #mudou de == conta[1] porque agora tem uma lista de cpf's
+                if cpf in conta[1]: #mudou de == conta[1] porque agora tem uma lista de cpf's
                     montante_agencia += conta[2]
 
         
@@ -81,10 +81,10 @@ def executar_menu(clientes, contas, agencias, proximo_numero_conta):
     opcao = input("Escolha uma opção: ")
 
     if opcao == "1":
-        cadastrar_contaS(numeroConta)
+        cadastrar_contaS(contas, clientes)
 
     elif opcao == "2":
-        cadastrar_clienteS(nome, cpf_ data_nascimento)
+        cadastrar_clienteS(clientes)
 
     elif opcao == "3":
         cadastrar_agencia(agencias)
