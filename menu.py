@@ -43,6 +43,7 @@ def exibir_menu():
     print("10. Consultar saldo")
     print("11. Relatório do banco")
     print("12. Salvar dados")
+    print("13 . Procurar clientes")
     print("0. Sair")
 
 
@@ -116,6 +117,13 @@ def executar_menu(clientes, contas, agencias, proximo_numero_conta):
     elif opcao == "12":
         salvar_dados(clientes, contas, agencias)
 
+    elif opcao == "13":
+        cpf_busca = int(input("Digite o CPF para busca : "))
+        cliente_encontrado = procurar_cliente(clientes, cpf_busca)
+        if cliente_encontrado:
+            print(f"Cliente encontrado | Nome : {cliente_encontrado[0]} | CPF : {cliente_encontrado[1]}")#cliente_ecnontrado pois não faz parte das outras listas
+        else :
+            print("Cliente não encontrado")
     elif opcao == "0":
         print("Saindo do sistema...")
         return
