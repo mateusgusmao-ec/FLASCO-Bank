@@ -1,25 +1,29 @@
 #extrato,saldo,deposito,saque
 #BASEADO NAS FUNÇOES MAIN.PY
 def exibir_conta(numeroConta,saldoConta):
-    resultado = f"NÚMERO DA CONTA : '{numeroConta}'\nSALDO DA CONTA : '{saldoConta}'"
+    resultado = f"NÚMERO DA CONTA : '{numeroConta}'\nSALDO DA CONTA : '{saldoConta}'"  # printa os dados da conta
     return resultado
 
 def depositar(saldoConta,valor_deposito):
     if valor_deposito > 0:
-        novoSaldo = saldoConta + valor_deposito
+        novoSaldo = saldoConta + valor_deposito   # sistema de entrada de um valor na conta
         return True, novoSaldo
     else:
         return False,saldoConta
     
 def sacar(saldoConta, valor_saque):
     if valor_saque > 0 and saldoConta >= valor_saque:
-        novoSaldo = saldoConta - valor_saque
+        novoSaldo = saldoConta - valor_saque  # sistema de saída de um valor da conta
         return True, novoSaldo
     else:
         return False, saldoConta
 
 def transferir(saldoConta, valor_deposito):
-
+    if valor_deposito > 0 and saldoConta >= valor_deposito:
+        novoSaldo = saldoConta - valor_deposito
+        return True, novoSaldo
+    else:
+        return False, saldoConta
 # conta.py
 
 
