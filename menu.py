@@ -7,22 +7,23 @@ from agencia import cadastrar_agencia, listar_agencias
 #função para carregar os dados
 def carregar_dados():
     try:
-        with open("dados.json", "r") as arquivo :
+        with open("dados.json", "r", encoding="uft-8") as arquivo :
             dados = json.load(arquivo)
-            #usando listas os dados terão índice
-        return dados[0], dados[1], dados[2]
+            #não precisa de indice com dict
+        return dados.get("clientes", {}), dados.get("contas", {}), dados.get("agencias", {})
     except FileNotFoundError:
-        return [], [], [] #se o arquivo não existir
+        return {}, {}, {} #se o arquivo não existir
 
 #função para salvar os dados(com listas)
 def salvar_dados(clientes, contas, agencias):
-    dados = [clientes, contas, agencias] #lista dos 3 dados
-    with open("dados.json", "w") as arquivo:
-        json.dump(dados, arquivo, indent=4)
-
-    print("Dados salvos com sucesso!")
-
-
+    dados = {
+        "clientes" : clientes,
+        "contas" : contas,
+        "agencias" : agencias
+    }
+    with open("dados,json", "w", encoding="utf-8") as arquivo:
+        json.dump(dados, arquivo, ident=4, ensure_ascii=False)
+    print("Dados salvos com sucesso")
 
 
 
