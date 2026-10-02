@@ -3,15 +3,38 @@
 # BASEADO NAS FUNÇOES MAIN.PY
 
 def validar_cpf(cpf):
-    cpf_str = "".join(filter(str.isdigit, str(cpf)))#usando alta ordem para garantir que seja apenas numeros
-    if lem(cpf_str) != 11 or cpr_str == cpf_str[0] * 11:
+    cpf_texto = str(cpf)
+    cpf_numeros = ""
+    
+    for letra in cpf_texto :
+        if letra.isdigit() :
+            cpf_numeros += letra
+    
+    if len(cpf_numeros) != 11 :
         return False
-
-    soma = sum(int(cpf_str[i]) * (10-i) for i in range(9))
-    digito1 = (soma*10) % 11 if (soma*10) % 11 < 10 else 0
-    if digito1 != int(cpf_str[9]):
-        return False #conferir se o digito 9 é igual ao digitiado, por meio de somas e resto da divisão
-
+    
+    todos_iguais = True
+    for i in range(1, 11):
+        if cpf_numeros[i] != cpf_numeros[0]:
+            todos_iguais = False
+            break
+    if todos_iguais:
+        return False
+    
+    soma = 0
+    multiplicador = 10
+    
+    for i in range(9) :
+        soma += int(cpf_numeros[i]) * multiplicador
+        
+    resto = (soma*10) % 11
+    if resto >= 10:
+        digito1=0
+    else : 
+        digito1 = resto
+    
+    if digito1 != int(cpf_numeros[9]):
+        return False
 
 def cadastrar_cliente(clientes, nome, cpf, data_nascimento):
     cpf_str = str(cpf)
