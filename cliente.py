@@ -51,29 +51,18 @@ def cadastrar_cliente(clientes, nome, cpf, data_nascimento):
         "nome": nome,
         "nascimento": data_nascimento
     }
-    print("Cliente cadastrado com sucesso!")
+    print(f"Cliente {nome}cadastrado com sucesso!")
     return True
-    
 
 def cadastrar_clienteS(clientes):
     quantidade = int(input('Quantos clientes serão cadastrados? '))
     for i in range(quantidade):
-        nome = input()
-        cpf = int(input())
-        data_nascimento = int(input())
+        nome = input("Digite o nome : ")
+        cpf = int(input("Digite o CPF : "))
+        data_nascimento = int(input("Digite a data de nascimento : "))
+        cadastrar_cliente(clientes, nome, cpf, data_nascimento)
 
-        cpf_existe = False
-        for cliente in clientes :
-            if cliente[1] == cpf:
-                cpf_existe = True
-                break #usando break para interromper o cadastro se o cpf ja existir
-        if not cpf_existe :
-            #criar tupla e adicionar o novo cliente
-            novo_cliente = cadastrar_cliente(nome, cpf, data_nascimento)
-            clientes.append(novo_cliente)
-            print("Cliente cadastrado com sucesso!")
-        else:
-            print(f"O CPF {cpf} já existe. Cliente não encontrado")
+
 def obter_nome_Cliente(cliente):
     return cliente[0]#retorna o nome puro
 

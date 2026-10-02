@@ -8,19 +8,21 @@ def criar_agencia(numero_agencia, nome_agencia):
 
 def cadastrar_agencia(agencias):
     numero_agencia = int(input("Digite o número da agência: "))
+    if numero_agencia in agencias :
+        print("Já existe uma agência com esse número") #verificando antes pois ele pedia o nome da agencia mesmo ja exxistindo
+        return False
+    
     nome_agencia = input("Digite o nome da agência: ")
 
-    agencia = criar_agencia(numero_agencia, nome_agencia)
-
-    agencias.append(agencia)
-
-
+    agencias[numero_agencia] = {
+        "nome" : nome_agencia,
+        "clientes" : []
+    }
+    print(f"Agência {nome_agencia} cadastrada com sucesso")
+    return True
+    
 def procurar_agencia(agencias, numero_agencia):
-    for agencia in agencias:
-        if agencia[0] == numero_agencia:
-            return agencia
-
-    return None
+    return agencias.get(str(numero_agencia), None)
 
 
 def cliente_existe_na_agencia(agencia, cpf):
@@ -49,13 +51,7 @@ def adicionar_cliente_agencia(agencias, clientes, numero_agencia, cpf):
 
 
 def listar_agencias(agencias):
-    for agencia in agencias:
-        print("Número da agência:", agencia[0])
-        print("Nome da agência:", agencia[1])
-
-        print("Clientes da agência:")
-
-        for cpf in agencia[2]:
-            print(cpf)
-
-        print()
+    print("\n--- LISTA DE AGÊNCIAS ---")
+    for numero , dados in agencias.item():
+        print(f"Número : {numero} | Nome : {dados['nome']}")
+        print(f"CPFs vinculados : {dados['clientes']}\n")
