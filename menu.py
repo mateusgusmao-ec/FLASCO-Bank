@@ -1,6 +1,6 @@
 import json
 
-from cliente import cadastrar_clienteS, listar_clientes, ordenar_clientes
+from cliente import cadastrar_clienteS, listar_clientes, ordenar_clientes, procurar_cliente
 from conta import cadastrar_contaS, depositar, sacar, transferir, saldoConta, listar_contas, consultar_saldo
 from agencia import cadastrar_agencia, listar_agencias
 
@@ -48,28 +48,10 @@ def exibir_menu():
     print("0. Sair")
 
 
-def relatorio_banco(contas, agencias):
-    montante_banco = 0
-
-    for conta in contas:
-        montante_banco += conta[2]
-
+def relatorio_banco(contas):
+    montante = sum(dados["saldo"] for dados in contas.values())
     print("\n--- RELATÓRIO DO BANCO ---")
-
-    print("Montante total do banco:", montante_banco)
-
-    for agencia in agencias:
-        montante_agencia = 0
-
-        
-        for cpf in agencia[2]:
-            for conta in contas:
-                if cpf in conta[1]: #mudou de == conta[1] porque agora tem uma lista de cpf's
-                    montante_agencia += conta[2]
-
-        
-        print("Agência:", agencia[0])
-        print("Montante total da agência:", montante_agencia)
+    print(f"Montante total armazenado no banco: R$ {montante:.2f}")
 
 
 
@@ -137,5 +119,5 @@ def executar_menu(clientes, contas, agencias, proximo_numero_conta):
     else:
 
         print("Opção inválida. Tente novamente.")
-
-    executar_menu(clientes, contas, agencias, proximo_numero_conta)
+if __name__ == "__main__":
+    executar_menu()
