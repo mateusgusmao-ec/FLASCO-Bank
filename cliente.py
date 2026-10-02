@@ -2,8 +2,35 @@
 # Login do cliente
 # BASEADO NAS FUNÇOES MAIN.PY
 
-def cadastrar_cliente(nome, cpf, data_nascimento):
-    return (nome, cpf, data_nascimento)
+def validar_cpf(cpf):
+    cpf_str = "".join(filter(str.isdigit, str(cpf)))#usando alta ordem para garantir que seja apenas numeros
+    if lem(cpf_str) != 11 or cpr_str == cpf_str[0] * 11:
+        return False
+
+    soma = sum(int(cpf_str[i]) * (10-i) for i in range(9))
+    digito1 = (soma*10) % 11 if (soma*10) % 11 < 10 else 0
+    if digito1 != int(cpf_str[9]):
+        return False #conferir se o digito 9 é igual ao digitiado, por meio de somas e resto da divisão
+
+
+def cadastrar_cliente(clientes, nome, cpf, data_nascimento):
+    cpf_str = str(cpf)
+
+    if not validar_cpf(cpf_str):
+        print("CPF inválido!")
+        return False
+
+    if cpf_str in clientes :
+        print(f"O cpf {cpf_str} já está cadastrado")
+        return False    
+
+    clientes[cpf_str] = { #dicionario com cpf como chave
+        "nome": nome,
+        "nascimento": data_nascimento
+    }
+    print("Cliente cadastrado com sucesso!")
+    return True
+    
 
 def cadastrar_clienteS(clientes):
     quantidade = int(input('Quantos clientes serão cadastrados? '))
@@ -32,15 +59,13 @@ def ordenar_clientes(clientes):  # Usar .sort()
     clientes.sort(key= obter_nome_Cliente)
     print("Clientes ordenados!")
     
-def procurar_cliente(clientes, cpf_procurado) :
-    for cliente in clientes :
-        #cliente[1] é o cpf
-        if cliente[1] == cpf_procurado :
-            return cliente
-    return None
+def procurar_cliente(clientes, cpf) :
+    cpf_str = str(cpf)
+    return clientes.get(cpf_str, None)
+    
 
 
 def listar_clientes(clientes):
     print("\n--- CLIENTES ---")
-    for cliente in clientes:
-        print(f"Nome : {cliente[0]} | CPF : {cliente[1]} | Nascimento : {cliente[2]}")
+    for cpf, dados in clientes.items():
+        print(f"Nome : {dados['nome']} | CPF : {cpf} | Nascimento : {dados['nascimento']}")
