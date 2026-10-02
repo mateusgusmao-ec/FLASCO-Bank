@@ -4,131 +4,122 @@ def exibir_conta(numeroConta,saldoConta):
     resultado = f"NÚMERO DA CONTA : '{numeroConta}'\nSALDO DA CONTA : '{saldoConta}'"  # printa os dados da conta
     return resultado
 
-def depositar(saldoConta,valor_deposito):
-    if valor_deposito > 0:
-        novoSaldo = saldoConta + valor_deposito   # sistema de entrada de um valor na conta
-        return True, novoSaldo
-    else:
-        return False,saldoConta
+def depositar(contas):
+    numero = input("Digite o número da conta : ")
+    if numero not in contas :
+        print("Conta não encontrada")
+        return
+
+    valor = float(input("Digite o valor de depósito : "))
+    if valor > 0 :
+        contas[numero]['saldo'] += valor
+        print(f"Depósito de R$ {valor:.2f} realizado. Novo saldo : R$ {contas[numero]['saldo']:.2f}")
+    else :
+        print("Valor inválido")
+
     
-def sacar(saldoConta, valor_saque):
-    if valor_saque > 0 and saldoConta >= valor_saque:
-        novoSaldo = saldoConta - valor_saque  # sistema de saída de um valor da conta
-        return True, novoSaldo
-    else:
-        return False, saldoConta
+def sacar(contas):
+    numero = input("Digite o número da conta : ")
+    if numero not in contas :
+        print("Conta não encontrada")
+        return
+    
+    valor = float(input("Digite o valor de saque : "))
+    if valor > 0 and contas[numero]['saldo'] >= valor :
+        contas[numero]['saldo'] -= valor
+        print(f"Saque de R$ {valor:.2f} realizado. Novo saldo : R$ {contas[numero]['saldo']:.2f}")
+    else :
+        print("Valor inválido ou saldo inválido")
+    
 
-def transferir(contas, numero_origem, numero_destino, valor):
-    if valor <= 0:
-        return False, " O valor da transferência deve ser maior que zero."
+def transferir(contas):
+    origem = input("Digite o número da sua conta (origem) : ")
+    destino = input("Digite o número da conta de destino : ")
 
-    indice_origem = -1
-    indice_destino = -1
 
-    #procurar a conta pelo indice
-    for i in range(len(contas)):
-        if contas[i][0] == numero_origem:
-            indice_origem = i
-        if contas[i][0] == numero_destino:
-            indice_destino = i
+    if origem not in contas or destino not in contas :
+        print("Conta de origem ou destino não encontrada")
+        return
 
-    if indice_origem == -1 or indice_destino == -1:
-        return False, " Conta de origem ou de destino não encontrada."
+    valor = float(input("Digite o valor de transferência : "))
 
-    conta_origem = contas[indice_origem]
-    conta_destino = contas[indice_destino]
-
-    # verifica o saldo
-    if conta_origem[2] < valor:
-        return False, " Saldo insuficiente para realizar a transferência."
-
-    #atualiza o saldo
-    novo_saldo_origem = conta_origem[2] - valor
-    contas[indice_origem] = (conta_origem[0], conta_origem[1], novo_saldo_origem)
-
-    # atuasliza o saldo porem na tupla
-    novo_saldo_destino = conta_destino[2] + valor
-    contas[indice_destino] = (conta_destino[0], conta_destino[1], novo_saldo_destino)
-
-    return True, " Transferência realizada com sucesso!"
+    if valor > 0 and contas[origem]['saldo'] >= valor :
+        contas[origem]['saldo'] -= valor
+        contas[destino]['saldo'] += valor
+        print(f"Transferência no valor de R$ {valor:.2f} realizado, novo saldo : R$ {contas[numero]['saldo']:.2f}")
+    else :
+        print("Saldo insuficiente ou valor inválido")
 # conta.py
 
 
+def cadastrar_conta(contas, clientes, numero_conta, cpfs_titualres, tipo_conta):
+    num_str = str(numero_conta)
+    tipos_permitidos = ["corrente", "poupança", "salário"]#lista de tipos de conta
+
+    if tipo_conta.lower() not in tipos_permitidos:
+        print("Tipo de conta inválido. Use: corrente, salario ou poupanca.")# se for um tipo fora dos 3 não roda
+        return False
+
+    if num_str in contas:
+        print("Já existe uma conta com esse número")
+        return False
+
+    cpfs_validos = []
+    for cpf in cpfs_titualres:
+        cpf_str = str(cpf)
+        if cpf_str not in clientes:
+            print(f"O cpf {cpf_str} não está na base de clientes")
+            return False
+        cpfs_validos.append(cpf_str) # verificar se ja existe o cpf na base de cadastro de clientes
+# validando o cpf e conferindo se esta na base, adiciona o cpf pra conta
+
+    contas[num_str] = {
+        "titulares" : cpfs_validos,
+        "tipo" : tipo_conta.lower(),
+        "saldo" : 0.0
+    }
+
+    print(f"Conta {tipo_conta} número {num_str} criada com sucesso")
+    return True
+
 def cadastrar_contaS(contas, clientes):
-  quantidade_contas = int(input("Quantas contas serão cadastradas? "))
+    quant_contas=int(input("Quantas contas serão cadastradas?"))
 
-  for _ in range(quantidade_contas):
-    print()
-    numero_conta = int(input("Digite o número da conta: "))
+    for _ in range(quant_contas):
+        print("\n--- Novo Registo de Conta ---")
+        numero_conta = input("Digite o número da conta: ")
+        tipo_conta = input("Digite o tipo da conta (corrente, salario ou poupanca): ")
 
-    #verifica se ja tem a conta
-    conta_duplicada = False
-    for conta in contas:
-      if conta[0] == numero_conta:
-        conta_duplicada = True
-        break
+        quantidade_titulares=int(input("Quantos titulares essa conta terá?"))
+        cpfs_titulares = []
 
-    if conta_duplicada:
-      print("Já existe uma conta cadastrada com este número.")
-    else:
-      # perguntar o numero de titulares
-      qtd_titulares = int(
-          input("Quantos titulares esta conta terá? (Ex: 1 ou mais): ")
-      )
-      cpfs_titulares = []
-      conta_valida = True
-
-      # coletar os cpf's
-      for _ in range(qtd_titulares):
-        cpf = int(input("Digite o CPF do titular: "))
-
-        # ver se o cliente existe na lista_clientes
-        cliente_encontrado = False
-        for cliente in clientes:
-          # cliente[1] é o cpf
-          if cliente[1] == cpf:
-            cliente_encontrado = True
-            break
-
-        if not cliente_encontrado:
-          print(f" O CPF {cpf} não está cadastrado! Cadastre o cliente primeiro.")
-          conta_valida = False
-          break
-        else:
-          # para não repetir o cpf
-          if cpf not in cpfs_titulares:
+        for _ in range(quantidade_titulares):
+            cpf = input("Digite o CPF do titular :")
             cpfs_titulares.append(cpf)
-          else:
-            print(f"O CPF {cpf} já foi adicionado a esta conta.")
 
-      # se for válido cria a conta com mais de 1 titular
-      if conta_valida and len(cpfs_titulares) > 0:
-        saldo_inicial = 0.0
-        # guarda uma lista de cpfs na cliente[1]
-        nova_conta = (numero_conta, cpfs_titulares, saldo_inicial)
-        contas.append(nova_conta)
-        print(f"Conta conjunta {numero_conta} cadastrada com sucesso para os CPFs: {cpfs_titulares}!")
+    cadastrar_conta(contas, clientes, numero_conta, cpfs_titulares, tipo_conta)
 
+def buscar_conta_cpf(contas, cpf) :
+    cpf_str = str(cpf)
+    encontradas = {}
+    for num , dados in contas.item():
+        if cpf_str in dados["titulares"]:
+            encontradas[num] = dados
+        return encontradas
+#chave de busca dos titulares da conta
 
 def listar_contas(contas):
   print("\n--- CONTAS ---")
-  for conta in contas:
-    print(f"Número da conta: {conta[0]}")
-    print(f"Titulares (CPFs): {conta[1]}")  # mostra todos os cpf's da lista
-    print(f"Saldo: {conta[2]}")
-    print()
+  for numero , dados in contas.item():
+      print(f"Conta : {numero} | Tipo : {dados['tipo']} | Titulares : {dados['titulares']} | Saldo : {dados['saldo']:.2f}")
 
 
-def consultar_saldo(cpf, numeroConta):
-    cpf = int(input("Digite o CPF: "))
-    numero_conta_busca = buscar_conta_por_cpf(contas, cpf)
-
-    conta_encontrada = None 
-    for conta in contas :
-       #verifica o numero da conta
-       if conta[0] == numero_conta_busca and cpf in conta[1]:
-          conta_encontrada = conta
-          break
+def consultar_saldo(contas):
+    numero = input("Digite o número da conta para consultar o saldo: ")
+    if numero in contas:
+        print(f"Saldo da conta {numero}: R$ {contas[numero]['saldo']:.2f}")
+    else:
+        print("Conta não encontrada.")
 
     if conta_encontrada != None :
        print(f"Numero da conta : {conta_encontrada[0]} | Saldo : R$ {conta_encontrada[2]:.2f}")
