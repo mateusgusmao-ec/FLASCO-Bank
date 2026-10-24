@@ -50,8 +50,8 @@ def gerar_dados_dashboard(clientes, contas):
         "maior_saldo": encontrar_maior_saldo(contas),
         "menor_saldo": encontrar_menor_saldo(contas),
         "saldo_medio": saldo_medio,
-        "saldo_total_formatado": f"R$ {saldo_total:.2f}",
-        "saldo_medio_formatado": f"R$ {saldo_medio:.2f}",
+        "saldo_total": f"R$ {saldo_total:.2f}",
+        "saldo_medio": f"R$ {saldo_medio:.2f}",
     }
 
 def obter_nomes_agencias(agencias):
