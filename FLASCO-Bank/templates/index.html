@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard FLASCO-Bank</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <h1>FLASCO-Bank - Dashboard</h1>
+
+    <!-- Exibe mensagens de Sucesso ou Erro enviadas pelo Flask -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Dashboard Estatístico -->
+    <div class="container">
+        <div class="card"><h3>Total de Clientes</h3><p>{{ dados.numero_clientes }}</p></div>
+        <div class="card"><h3>Total de Contas</h3><p>{{ dados.numero_contas }}</p></div>
+        <div class="card"><h3>Saldo Total</h3><p>R$ {{ dados.saldo_total }}</p></div>
+    </div>
+
+    <!-- FORMULÁRIO DE CADASTRO -->
+    <div class="form-box">
+        <h2>Cadastrar Novo Cliente</h2>
+        <form action="/cadastrar_cliente" method="POST">
+            <div class="form-group">
+                <label for="nome">Nome Completo:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="cpf">CPF (somente números):</label>
+                <input type="text" id="cpf" name="cpf" placeholder="Ex: 12345678901" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="nascimento">Data de Nascimento:</label>
+                <input type="text" id="nascimento" name="nascimento" placeholder="Ex: 2005-01-01" required>
+            </div>
+            
+            <button type="submit">Cadastrar Cliente</button>
+        </form>
+    </div>
+
+</body>
+</html>
