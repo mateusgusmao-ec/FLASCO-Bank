@@ -2,84 +2,37 @@
 # Login do cliente
 # BASEADO NAS FUNÇOES MAIN.PY
 
-def validar_cpf(cpf):
-  cpf_texto = str(cpf).strip()
-  cpf_numeros = ""
+class Cliente:
+    def __init__(self, nome, cpf, data_nascimento):
+        self.nome = nome
+        self.cpf = cpf
+        self.data_nascimento = str(self.data_nascimento)
+        self.contas = []
 
-  for letra in cpf_texto:
-    if letra.isdigit():
-      cpf_numeros += letra
+    def adcicionar_conta(self, conta):
+        if conta not in self.contas :
+            self.contas.append(conta)
 
-  if len(cpf_numeros) == 10:
-    cpf_numeros = "0" + cpf_numeros
-
-  if len(cpf_numeros) != 11:
-    return False
-
-  todos_iguais = True
-  for i in range(1, 11):
-    if cpf_numeros[i] != cpf_numeros[0]:
-      todos_iguais = False
-      break
-
-  if todos_iguais:
-    return False
-
-  # Valida os 2 dígitos verificadores em um único loop
-  for t in range(9, 11):
-    soma = 0
-    for i in range(t):
-      soma += int(cpf_numeros[i]) * ((t + 1) - i)
-
-    resto = (soma * 10) % 11
-    digito = 0 if resto >= 10 else resto
-
-    if digito != int(cpf_numeros[t]):
-      return False
-
-  return True
-def cadastrar_cliente(clientes, nome, cpf, data_nascimento):
-    cpf_str = str(cpf)
-
-    if not validar_cpf(cpf_str):
-        print("CPF inválido!")
-        return False
-
-    if cpf_str in clientes :
-        print(f"O cpf {cpf_str} já está cadastrado")
-        return False    
-
-    clientes[cpf_str] = { #dicionario com cpf como chave
-        "nome": nome,
-        "nascimento": data_nascimento
-    }
-    print(f"Cliente {nome}cadastrado com sucesso!")
-    return True
-
-def cadastrar_clienteS(clientes):
-    quantidade = int(input('Quantos clientes serão cadastrados? '))
-    for i in range(quantidade):
-        nome = input("Digite o nome : ")
-        cpf = int(input("Digite o CPF : "))
-        data_nascimento = int(input("Digite a data de nascimento : "))
-        cadastrar_cliente(clientes, nome, cpf, data_nascimento)
-
-
-def obter_nome_Cliente(cliente):
-    return cliente[0]#retorna o nome puro
-
-def ordenar_clientes(clientes):  # Usar .sort()
-    #ordenação em ordem alfabética com base no nome (lista[0])
-    clientes.sort(key= obter_nome_Cliente)
-    print("Clientes ordenados!")
-    
-def procurar_cliente(clientes, cpf) :
-    cpf_str = str(cpf)
-    return clientes.get(cpf_str, None)
-    
-
-
-def listar_clientes(clientes):
-    print("\n--- CLIENTES ---")
-    for cpf, dados in clientes.items():
-        print(f"Nome : {dados['nome']} | CPF : {cpf} | Nascimento : {dados['nascimento']}")
+    def to_dict(self):
+        return{
+            "nome" : self.nome,
+            "cpf" : self.nome,
+            "data_nascimento" : self.data_nascimento
+            }
+    @classmethod
+    def from_dicts(cls, dados):
+        return cls(
+            nome = dados["nome"],
+            cpf = dados["cpf"],
+            data_nascimento = dados["data_nacimento"]
+        )
+    @staticmethod
+    def limpar_cpf(cpf):
+        cpf_texto = str(cpf).strip()
+        cpf_numeros = "" 
+        for letra in cpf_texto:
+            if letra.isdigit():
+                cpf_numeros += letra
+            if len(cpf_numeros) == 10:
+                cpf_numeros = "0" + cpf_numeros
+            return cpf_numeros
