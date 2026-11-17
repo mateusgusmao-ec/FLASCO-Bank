@@ -1,65 +1,98 @@
-import json
-from flask import Flask, flash, redirect, render_template, request, url_for
-
-from analise import gerar_dados_dashboard
-from cliente import cadastrar_cliente, validar_cpf
+import atexit
+from flask import Flask, render_template, request, redirect, url_for, flash
+from agencia import Agencia
+from analise import AnaliseFinanceira
 
 app = Flask(__name__)
-# A secret_key é necessária para exibir mensagens de aviso (flash) na tela
-app.secret_key = "flasco_bank_chave_secreta"
+app.secret_key = "flasco_bank_etapa5_poo"
+
+agencia = Agencia.carregar_json("dados.json")
+analise = AnaliseFinanceira(agencia)
 
 
-def carregar_dados():
-  try:
-    with open("dados.json", "r", encoding="utf-8") as arquivo:
-      dados = json.load(arquivo)
-      return (
-          dados.get("clientes", {}),
-          dados.get("contas", {}),
-          dados.get("agencias", {}),
-      )
-  except FileNotFoundError:
-    return {}, {}, {}
+def salvar_ao_encerrar():
+    agencia.salvar_json("dados.json")
 
 
-def salvar_dados(clientes, contas, agencias):
-  dados = {"clientes": clientes, "contas": contas, "agencias": agencias}
-  with open("dados.json", "w", encoding="utf-8") as arquivo:
-    json.dump(dados, arquivo, indent=4, ensure_ascii=False)
+atexit.register(salvar_ao_encerrar)
 
 
 @app.route("/")
 def dashboard():
-  clientes, contas, _ = carregar_dados()
-  estatisticas = gerar_dados_dashboard(clientes, contas)
-  return render_template("index.html", dados=estatisticas)
+    dados_dashboard = analise.gerar_dashboard()
+    return render_template("index.html", dados=dados_dashboard)
 
 
-# ROTA QUE RECEBE OS DADOS DO FORMULÁRIO HTML
 @app.route("/cadastrar_cliente", methods=["POST"])
 def cadastrar_cliente_web():
-  # 1. Pega os dados digitados nos campos 'name' do HTML
-  nome = request.form.get("nome")
-  cpf = request.form.get("cpf")
-  nascimento = request.form.get("nascimento")
+    nome = request.form.get("nome")
+    cpf = request.form.get("cpf")
+    nascimento = request.form.get("nascimento")
 
-  # 2. Carrega a base atual do JSON
-  clientes, contas, agencias = carregar_dados()
+    sucesso, mensagem = agencia.cadastrar_cliente(nome, cpf, nascimento)
+    flash(mensagem, "sucesso" if sucesso else "erro")
+    return redirect(url_for("dashboard"))
 
-  # 3. Validações antes de salvar
-  if not validar_cpf(cpf):
-    flash("❌ CPF inválido!", "erro")
-  elif str(cpf) in clientes:
-    flash("❌ CPF já cadastrado!", "erro")
-  else:
-    # Cadastra no dicionário e salva no JSON
-    cadastrar_cliente(clientes, nome, cpf, nascimento)
-    salvar_dados(clientes, contas, agencias)
-    flash(f"✅ Cliente {nome} cadastrado com sucesso!", "sucesso")
 
-  # 4. Recarrega a página do dashboard
-  return redirect(url_for("dashboard"))
+@app.route("/cadastrar_conta", methods=["POST"])
+def cadastrar_conta_web():
+    numero = request.form.get("numero")
+    cpf = request.form.get("cpf")
+    tipo = request.form.get("tipo")
+    saldo_str = request.form.get("saldo", "0")
+
+    try:
+        saldo_inicial = float(saldo_str)
+    except ValueError:
+        saldo_inicial = 0.0
+
+    sucesso, mensagem = agencia.cadastrar_conta(numero, cpf, tipo, saldo_inicial)
+    flash(mensagem, "sucesso" if sucesso else "erro")
+    return redirect(url_for("dashboard"))
+
+
+@app.route("/transacao", methods=["POST"])
+def realizar_transacao_web():
+    operacao = request.form.get("operacao")
+    numero_origem = request.form.get("numero_origem")
+    numero_destino = request.form.get("numero_destino")
+    valor_str = request.form.get("valor", "0")
+
+    try:
+        valor = float(valor_str)
+    except ValueError:
+        valor = 0.0
+
+    conta_origem = agencia.buscar_conta(numero_origem)
+    if conta_origem is None:
+        flash("Conta não encontrada.", "erro")
+        return redirect(url_for("dashboard"))
+
+    if operacao == "depositar":
+        if conta_origem.depositar(valor):
+            flash(f"Depósito de R$ {valor:.2f} realizado na conta {conta_origem.numero}.", "sucesso")
+        else:
+            flash("Valor de depósito inválido.", "erro")
+
+    elif operacao == "sacar":
+        if conta_origem.sacar(valor):
+            flash(f"Saque de R$ {valor:.2f} realizado na conta {conta_origem.numero}.", "sucesso")
+        else:
+            flash("Saldo insuficiente ou valor inválido.", "erro")
+
+    elif operacao == "transferir":
+        conta_destino = agencia.buscar_conta(numero_destino)
+        if conta_destino is None:
+            flash("Conta de destino não encontrada.", "erro")
+        elif conta_origem.numero == conta_destino.numero:
+            flash("A conta de destino deve ser diferente da origem.", "erro")
+        elif conta_origem.transferir(conta_destino, valor):
+            flash(f"Transferência de R$ {valor:.2f} realizada com sucesso.", "sucesso")
+        else:
+            flash("Saldo insuficiente para transferência.", "erro")
+
+    return redirect(url_for("dashboard"))
 
 
 if __name__ == "__main__":
-  app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
